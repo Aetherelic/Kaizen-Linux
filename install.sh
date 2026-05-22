@@ -6,6 +6,9 @@ INSTALL_GAMING=1
 INSTALL_PRODUCTIVITY=1
 ENABLE_THIRD_PARTY=1
 
+FAILED_PACKAGES=()
+OPTIONAL_FAILED_PACKAGES=()
+
 usage() {
   cat <<'HELP'
 AetherOS Fedora Hyprland installer
@@ -18,7 +21,7 @@ Options:
   --no-gaming         Do not install gaming packages
   --no-productivity   Do not install productivity packages
   --no-third-party    Do not enable third-party repos/COPRs
-  --help             Show this help
+  --help              Show this help
 HELP
 }
 
@@ -54,7 +57,6 @@ case "${ID:-}" in
 esac
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-FAILED_PACKAGES=()
 
 install_package_list() {
   local file="$1"
@@ -68,6 +70,22 @@ install_package_list() {
 
     if ! sudo dnf install -y "$pkg"; then
       FAILED_PACKAGES+=("$pkg")
+    fi
+  done < "$file"
+}
+
+install_optional_package_list() {
+  local file="$1"
+
+  [ -f "$file" ] || return 0
+
+  while IFS= read -r pkg; do
+    case "$pkg" in
+      ""|\#*) continue ;;
+    esac
+
+    if ! sudo dnf install -y "$pkg"; then
+      OPTIONAL_FAILED_PACKAGES+=("$pkg")
     fi
   done < "$file"
 }
@@ -116,6 +134,7 @@ sudo dnf group upgrade -y core || true
 
 install_package_list "$ROOT_DIR/packages/base.txt"
 install_package_list "$ROOT_DIR/packages/desktop-common.txt"
+install_optional_package_list "$ROOT_DIR/packages/wallpaper-optional.txt"
 
 if [ "$INSTALL_HYPRLAND" -eq 1 ]; then
   install_package_list "$ROOT_DIR/packages/hyprland.txt"
@@ -142,8 +161,13 @@ systemctl --user daemon-reload 2>/dev/null || true
 printf "\nAetherOS Fedora Hyprland base install complete.\n"
 
 if [ "${#FAILED_PACKAGES[@]}" -gt 0 ]; then
-  printf "\nSome packages failed to install and need review:\n"
+  printf "\nSome required packages failed to install and need review:\n"
   printf ' - %s\n' "${FAILED_PACKAGES[@]}"
+fi
+
+if [ "${#OPTIONAL_FAILED_PACKAGES[@]}" -gt 0 ]; then
+  printf "\nSome optional packages were skipped:\n"
+  printf ' - %s\n' "${OPTIONAL_FAILED_PACKAGES[@]}"
 fi
 
 printf "\nReboot, then choose Hyprland from your login screen if available.\n"
