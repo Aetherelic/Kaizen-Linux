@@ -20,4 +20,4 @@ This is expected because the current Kickstart is still a minimal Fedora base pr
 
 ## Next milestone
 
-Add firstboot automation so the ISO installs and enables the Kaizen Hyprland desktop automatically.
+Build a desktop-enabled ISO that includes the Kaizen Hyprland desktop directly in the image.
