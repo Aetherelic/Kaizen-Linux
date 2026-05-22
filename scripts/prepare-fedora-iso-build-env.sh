@@ -8,10 +8,14 @@ fi
 
 sudo dnf install -y \
   lorax \
+  lorax-lmc-virt \
+  lorax-lmc-novirt \
   pykickstart \
   spin-kickstarts \
   mock \
-  git
+  git \
+  qemu-kvm \
+  virt-install
 
 if ! command -v livemedia-creator >/dev/null 2>&1; then
   printf "livemedia-creator was not found after installing lorax.\n"
