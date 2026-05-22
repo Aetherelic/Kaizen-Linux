@@ -2,12 +2,12 @@ kitty
 rofi-wayland
 waybar
 swaync
-swww
+hyprpaper
 hyprlock
 hypridle
 xdg-desktop-portal
 xdg-desktop-portal-wlr
-polkit-gnome
+mate-polkit
 grim
 slurp
 swappy
