@@ -1,0 +1,24 @@
+componentName: kaizen
+
+strings:
+  productName: Kaizen Linux
+  shortProductName: Kaizen
+  version: Fedora 44 Prototype
+  shortVersion: F44
+  versionedName: Kaizen Linux Fedora 44
+  shortVersionedName: Kaizen F44
+  bootloaderEntryName: Kaizen Linux
+  productUrl: https://github.com/Aetherelic/Kaizen-Linux
+  supportUrl: https://github.com/Aetherelic/Kaizen-Linux/issues
+  knownIssuesUrl: https://github.com/Aetherelic/Kaizen-Linux/issues
+  releaseNotesUrl: https://github.com/Aetherelic/Kaizen-Linux
+
+images:
+  productLogo: kaizen-logo.png
+  productIcon: kaizen-logo.png
+  productWelcome: kaizen-logo.png
+
+style:
+  sidebarBackground: "#0b0d12"
+  sidebarText: "#e5e9f0"
+  sidebarTextSelect: "#88c0d0"
