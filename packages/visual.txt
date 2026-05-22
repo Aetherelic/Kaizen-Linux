@@ -1,4 +1,5 @@
 jetbrains-mono-fonts
-fontawesome-fonts
+google-noto-sans-fonts
+google-noto-emoji-fonts
 papirus-icon-theme
 swaybg
