@@ -11,6 +11,7 @@ keyboard --vckeymap=gb --xlayouts='gb'
 timezone Europe/London --utc
 
 network --bootproto=dhcp --device=link --activate
+url --url="https://download.fedoraproject.org/pub/fedora/linux/releases/44/Everything/x86_64/os/"
 rootpw --lock
 user --name=kaizen --groups=wheel --gecos="Kaizen User" --password=kaizen
 
