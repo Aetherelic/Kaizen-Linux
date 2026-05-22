@@ -119,8 +119,8 @@ copy_config_dir() {
 
 install_wallpapers() {
   if [ -d "$ROOT_DIR/branding/wallpapers" ] && [ "$(find "$ROOT_DIR/branding/wallpapers" -mindepth 1 | wc -l)" -gt 0 ]; then
-    mkdir -p "$HOME/.local/share/backgrounds/aetherelix"
-    cp -r "$ROOT_DIR/branding/wallpapers/." "$HOME/.local/share/backgrounds/aetherelix/"
+    mkdir -p "$HOME/.local/share/backgrounds/kaizen"
+    cp -r "$ROOT_DIR/branding/wallpapers/." "$HOME/.local/share/backgrounds/kaizen/"
   fi
 }
 
