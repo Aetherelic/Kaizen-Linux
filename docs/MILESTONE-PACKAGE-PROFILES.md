@@ -1,6 +1,6 @@
 # Milestone: Package Profiles
 
-This milestone proves that Aetherelix Linux can install its productivity and gaming package profiles on Fedora 44.
+This milestone proves that Kaizen Linux can install its productivity and gaming package profiles on Fedora 44.
 
 ## Confirmed working
 

@@ -1,22 +1,22 @@
 # Kickstart Prototype
 
-Aetherelix currently uses a post-install script as the source of truth.
+Kaizen currently uses a post-install script as the source of truth.
 
 The Kickstart file is the beginning of the ISO/remix path.
 
 ## Current Kickstart
 
-kickstart/aetherelix-fedora.ks
+kickstart/kaizen-fedora.ks
 
 ## Current purpose
 
 The current Kickstart only proves the automated Fedora install structure.
 
-It does not yet fully install the Aetherelix desktop by itself.
+It does not yet fully install the Kaizen desktop by itself.
 
 ## Future goals
 
-- Add Aetherelix package profiles
+- Add Kaizen package profiles
 - Add Hyprland session packages
 - Add repo/COPR setup
 - Add default user config

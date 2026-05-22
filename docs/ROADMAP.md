@@ -4,7 +4,7 @@
 
 ### Milestone 1: Project skeleton
 
-Created the initial Aetherelix Linux Fedora Hyprland project structure.
+Created the initial Kaizen Linux Fedora Hyprland project structure.
 
 ### Milestone 2: Fedora VM test lab
 
@@ -16,7 +16,7 @@ Confirmed that the installer can create a working Hyprland session on Fedora.
 
 ### Milestone 4: Base desktop visuals
 
-Added Kitty, Rofi, Waybar, Fastfetch, fonts, wallpaper handling, and Aetherelix branding.
+Added Kitty, Rofi, Waybar, Fastfetch, fonts, wallpaper handling, and Kaizen branding.
 
 ### Milestone 5: Package profiles
 
@@ -34,7 +34,7 @@ Create the first Fedora Kickstart file for automated installs.
 
 ### Milestone 8: ISO build prototype
 
-Build the first bootable Aetherelix Fedora Remix ISO.
+Build the first bootable Kaizen Fedora Remix ISO.
 
 ### Milestone 9: NVIDIA and gaming kernel profiles
 
@@ -42,4 +42,4 @@ Add optional NVIDIA setup and optional gaming kernel support.
 
 ### Milestone 10: Quickshell / AetherDeck
 
-Add the advanced Aetherelix desktop shell experience.
+Add the advanced Kaizen desktop shell experience.

@@ -36,7 +36,7 @@ prompt {
 
 entry {
     text-color: @fg;
-    placeholder: "Search Aetherelix...";
+    placeholder: "Search Kaizen...";
     placeholder-color: @muted;
 }
 

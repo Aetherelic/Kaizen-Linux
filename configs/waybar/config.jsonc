@@ -9,7 +9,7 @@
   "modules-right": ["pulseaudio", "network", "memory", "cpu", "tray"],
 
   "custom/logo": {
-    "format": "Aetherelix",
+    "format": "Kaizen",
     "tooltip": false
   },
 

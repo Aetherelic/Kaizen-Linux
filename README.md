@@ -1,4 +1,8 @@
-# AetherOS Fedora Remix
+<p align="center">
+  <img src="branding/logos/kaizen-linux-logo.png" width="180" alt="Kaizen Linux Logo">
+</p>
+
+# Kaizen Linux Fedora Remix
 
 A Fedora-based Hyprland desktop project focused on:
 
@@ -13,7 +17,7 @@ A Fedora-based Hyprland desktop project focused on:
 
 Early development.
 
-The first goal is to create a reliable post-install script that turns a fresh Fedora install into the AetherOS desktop.
+The first goal is to create a reliable post-install script that turns a fresh Fedora install into the Kaizen Linux desktop.
 
 ## Roadmap
 

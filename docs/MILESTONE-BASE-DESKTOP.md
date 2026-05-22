@@ -1,6 +1,6 @@
 # Milestone: Base Desktop
 
-This milestone proves that Aetherelix Linux can turn a fresh Fedora Workstation install into a working Fedora Hyprland desktop.
+This milestone proves that Kaizen Linux can turn a fresh Fedora Workstation install into a working Fedora Hyprland desktop.
 
 ## Confirmed working
 

@@ -20,12 +20,12 @@ required_files=(
   "configs/hypr/hyprland.conf"
   "configs/kitty/kitty.conf"
   "configs/rofi/config.rasi"
-  "configs/rofi/aetherelix.rasi"
+  "configs/rofi/kaizen.rasi"
   "configs/waybar/config.jsonc"
   "configs/waybar/style.css"
   "configs/fastfetch/config.jsonc"
   "docs/FIRSTBOOT.md"
-  "branding/wallpapers/aetherelix-default.svg"
+  "branding/wallpapers/kaizen-default.svg"
 )
 
 for file in "${required_files[@]}"; do
@@ -52,4 +52,4 @@ if grep -qE "^(swww|polkit-gnome)$" packages/desktop-common.txt; then
   exit 1
 fi
 
-printf "Aetherelix validation passed.\n"
+printf "Kaizen validation passed.\n"

@@ -8,4 +8,4 @@ configuration {
     display-window: "Windows";
 }
 
-@theme "aetherelix"
+@theme "kaizen"

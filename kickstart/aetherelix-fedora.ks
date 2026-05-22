@@ -1,4 +1,4 @@
-# Aetherelix Linux Fedora Kickstart Prototype
+# Kaizen Linux Fedora Kickstart Prototype
 #
 # Goal:
 # Create a Fedora-based Hyprland install target that can later become
@@ -12,7 +12,7 @@ timezone Europe/London --utc
 
 network --bootproto=dhcp --device=link --activate
 rootpw --lock
-user --name=aetherelix --groups=wheel --gecos="Aetherelix User" --password=aetherelix
+user --name=kaizen --groups=wheel --gecos="Kaizen User" --password=kaizen
 
 firewall --enabled
 selinux --enforcing
@@ -35,14 +35,14 @@ dnf-plugins-core
 flatpak
 %end
 
-%post --log=/root/aetherelix-post.log
+%post --log=/root/kaizen-post.log
 set -eux
 
 cat > /etc/motd <<'MOTD'
-Aetherelix Linux Fedora Remix Prototype
+Kaizen Linux Fedora Remix Prototype
 
 This system was installed from the early Kickstart prototype.
-Run the Aetherelix installer after first login to complete the desktop setup.
+Run the Kaizen installer after first login to complete the desktop setup.
 MOTD
 
 %end

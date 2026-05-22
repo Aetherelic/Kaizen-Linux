@@ -1,6 +1,6 @@
-# Aetherelix Linux First Boot
+# Kaizen Linux First Boot
 
-Welcome to the early Aetherelix Linux Fedora Hyprland test image.
+Welcome to the early Kaizen Linux Fedora Hyprland test image.
 
 ## Default keybinds
 
