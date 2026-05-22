@@ -62,6 +62,27 @@ copy_config_dir() {
   fi
 }
 
+
+install_installer_shortcut() {
+  local target_home="$1"
+
+  mkdir -p "$target_home/Desktop" "$target_home/.local/share/applications"
+
+  cat > "$target_home/Desktop/install-kaizen-linux.desktop" <<'DESKTOP'
+[Desktop Entry]
+Type=Application
+Name=Install Kaizen Linux
+Comment=Install Kaizen Linux to disk
+Exec=pkexec calamares
+Icon=system-software-install
+Terminal=false
+Categories=System;
+DESKTOP
+
+  cp "$target_home/Desktop/install-kaizen-linux.desktop" "$target_home/.local/share/applications/install-kaizen-linux.desktop"
+  chmod +x "$target_home/Desktop/install-kaizen-linux.desktop" "$target_home/.local/share/applications/install-kaizen-linux.desktop"
+}
+
 install_wallpapers() {
   local target_home="$1"
 
@@ -82,6 +103,7 @@ dnf copr enable -y ashbuk/Hyprland-Fedora || true
 install_package_list "$ROOT_DIR/packages/base.txt"
 install_package_list "$ROOT_DIR/packages/desktop-common.txt"
 install_package_list "$ROOT_DIR/packages/display-manager.txt"
+install_package_list "$ROOT_DIR/packages/installer.txt"
 install_package_list "$ROOT_DIR/packages/visual.txt"
 install_package_list "$ROOT_DIR/packages/hyprland.txt"
 install_optional_package_list "$ROOT_DIR/packages/wallpaper-optional.txt"
@@ -100,10 +122,12 @@ copy_config_dir waybar "$TARGET_HOME"
 copy_config_dir fastfetch "$TARGET_HOME"
 copy_config_dir starship "$TARGET_HOME"
 install_wallpapers "$TARGET_HOME"
+install_installer_shortcut "$TARGET_HOME"
 
 chown -R "$TARGET_USER:$TARGET_USER" "$TARGET_HOME/.config" "$TARGET_HOME/.local" 2>/dev/null || true
 
-systemctl enable gdm.service || true
+systemctl disable gdm.service 2>/dev/null || true
+systemctl enable sddm.service || true
 systemctl set-default graphical.target || true
 
 echo
