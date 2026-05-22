@@ -39,7 +39,13 @@ grub2-pc
 grub2-pc-modules
 grub2-efi-x64
 shim-x64
-%end
+
+grub2-efi-x64-cdboot
+grub2-efi-x64-modules
+grub2-tools
+grub2-tools-efi
+grub2-tools-extra
+efibootmgr%end
 
 %post --log=/root/kaizen-post.log
 set -eux
