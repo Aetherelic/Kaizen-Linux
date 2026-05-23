@@ -8,7 +8,7 @@ network --bootproto=dhcp --device=link --activate
 url --url="https://download.fedoraproject.org/pub/fedora/linux/releases/44/Everything/x86_64/os/"
 
 rootpw --lock
-user --name=kaizen --groups=wheel --gecos="Kaizen User" --password=kaizen
+user --name=kaizen --groups=wheel --gecos="Kaizen User" --password=kaizen --plaintext
 
 firewall --enabled
 selinux --enforcing

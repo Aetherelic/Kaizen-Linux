@@ -92,7 +92,7 @@ USERWRAP
   chmod 755 /usr/local/bin/kaizen-calamares-root /usr/local/bin/install-kaizen-linux
 
   cat > /etc/sudoers.d/kaizen-installer <<SUDOERS
-${target_user} ALL=(root) NOPASSWD:SETENV: /usr/local/bin/kaizen-calamares-root
+${target_user} ALL=(root) NOPASSWD:SETENV: /usr/local/bin/kaizen-calamares-root, /usr/bin/calamares
 SUDOERS
 
   chmod 440 /etc/sudoers.d/kaizen-installer
@@ -120,6 +120,40 @@ install_wallpapers() {
     cp -r "$ROOT_DIR/branding/wallpapers/." "$target_home/.local/share/backgrounds/kaizen/"
   fi
 }
+
+
+install_calamares_config() {
+  if [ -d "$ROOT_DIR/configs/calamares" ] && [ "$(find "$ROOT_DIR/configs/calamares" -mindepth 1 | wc -l)" -gt 0 ]; then
+    mkdir -p /etc/calamares
+    rm -rf /etc/calamares/modules /etc/calamares/branding
+    cp -a "$ROOT_DIR/configs/calamares/." /etc/calamares/
+  fi
+}
+
+
+
+configure_live_installer_session() {
+  local target_user="$1"
+
+  mkdir -p /etc/sudoers.d /etc/sddm.conf.d
+
+  cat > /etc/sudoers.d/kaizen-live <<SUDOERS
+${target_user} ALL=(ALL) NOPASSWD: ALL
+SUDOERS
+
+  chmod 440 /etc/sudoers.d/kaizen-live
+
+  cat > /etc/sddm.conf.d/10-kaizen-autologin.conf <<SDDM
+[Autologin]
+User=${target_user}
+Session=hyprland.desktop
+
+[Users]
+RememberLastUser=true
+RememberLastSession=true
+SDDM
+}
+
 
 dnf install -y dnf-plugins-core git curl wget
 
@@ -152,6 +186,8 @@ copy_config_dir fastfetch "$TARGET_HOME"
 copy_config_dir starship "$TARGET_HOME"
 install_wallpapers "$TARGET_HOME"
 install_installer_shortcut "$TARGET_HOME"
+configure_live_installer_session "$TARGET_USER"
+install_calamares_config
 
 chown -R "$TARGET_USER:$TARGET_USER" "$TARGET_HOME/.config" "$TARGET_HOME/.local" 2>/dev/null || true
 
