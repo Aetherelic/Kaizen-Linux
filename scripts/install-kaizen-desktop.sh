@@ -16,8 +16,8 @@ fi
 
 . /etc/os-release
 
-if [ "${ID:-}" != "fedora" ]; then
-  echo "This script is intended for Fedora."
+if [ "${ID:-}" != "fedora" ] && ! printf '%s\n' "${ID_LIKE:-}" | grep -qw "fedora"; then
+  echo "This script is intended for Fedora or Fedora-based Kaizen Linux."
   exit 1
 fi
 
