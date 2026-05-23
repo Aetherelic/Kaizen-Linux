@@ -97,6 +97,42 @@ install_kaizen_os_branding() {
 }
 
 
+
+install_kaizen_update_command() {
+  mkdir -p /usr/local/bin
+
+  cat > /usr/local/bin/kaizen-update <<'UPDATE'
+#!/usr/bin/env bash
+set -euo pipefail
+
+REPO_DIR="${KAIZEN_REPO_DIR:-$HOME/Kaizen-Linux}"
+BRANCH="${KAIZEN_BRANCH:-main}"
+
+if [ ! -d "$REPO_DIR/.git" ]; then
+  echo "Kaizen repo not found at: $REPO_DIR"
+  echo
+  echo "Clone it first with:"
+  echo "git clone https://github.com/Aetherelic/Kaizen-Linux.git $REPO_DIR"
+  exit 1
+fi
+
+cd "$REPO_DIR"
+
+git fetch origin
+git switch "$BRANCH"
+git reset --hard "origin/$BRANCH"
+
+sudo bash scripts/install-kaizen-desktop.sh "$USER"
+
+echo
+echo "Kaizen update complete."
+echo "Reboot recommended."
+UPDATE
+
+  chmod 755 /usr/local/bin/kaizen-update
+}
+
+
 dnf install -y dnf-plugins-core git curl wget
 
 dnf install -y \
@@ -120,6 +156,7 @@ copy_config_dir fastfetch
 copy_config_dir starship
 install_wallpapers
 install_kaizen_os_branding
+install_kaizen_update_command
 
 systemctl disable gdm.service 2>/dev/null || true
 systemctl enable sddm.service || true
