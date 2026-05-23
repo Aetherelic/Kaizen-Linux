@@ -3,3 +3,4 @@ google-noto-sans-fonts
 google-noto-emoji-fonts
 papirus-icon-theme
 swaybg
+fontawesome-fonts

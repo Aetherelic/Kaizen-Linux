@@ -20,3 +20,5 @@ blueman
 NetworkManager-tui
 spice-vdagent
 qemu-guest-agent
+swaybg
+openssh-server
