@@ -175,10 +175,13 @@ install_calamares_config() {
 
 
 
+
 configure_live_installer_session() {
   local target_user="$1"
+  local target_home
+  target_home="$(getent passwd "$target_user" | cut -d: -f6)"
 
-  mkdir -p /etc/sudoers.d /etc/sddm.conf.d
+  mkdir -p /etc/sudoers.d /etc/systemd/system/getty@tty1.service.d
 
   cat > /etc/sudoers.d/kaizen-live <<SUDOERS
 ${target_user} ALL=(ALL) NOPASSWD: ALL
@@ -186,16 +189,29 @@ SUDOERS
 
   chmod 440 /etc/sudoers.d/kaizen-live
 
-  cat > /etc/sddm.conf.d/10-kaizen-autologin.conf <<SDDM
-[Autologin]
-User=${target_user}
-Session=hyprland.desktop
+  cat > /etc/systemd/system/getty@tty1.service.d/override.conf <<GETTY
+[Service]
+ExecStart=
+ExecStart=-/usr/bin/agetty --autologin ${target_user} --noclear %I \$TERM
+GETTY
 
-[Users]
-RememberLastUser=true
-RememberLastSession=true
-SDDM
+  cat > "$target_home/.bash_profile" <<'PROFILE'
+# Kaizen live ISO autostart
+if [ -z "${WAYLAND_DISPLAY:-}" ] && [ -z "${DISPLAY:-}" ] && [ "$(tty)" = "/dev/tty1" ]; then
+  export XDG_SESSION_TYPE=wayland
+  export XDG_CURRENT_DESKTOP=Hyprland
+  export QT_QPA_PLATFORM=wayland;xcb
+  exec Hyprland
+fi
+PROFILE
+
+  chown "$target_user:$target_user" "$target_home/.bash_profile"
+
+  systemctl disable sddm.service 2>/dev/null || true
+  systemctl enable getty@tty1.service || true
+  systemctl set-default multi-user.target || true
 }
+
 
 
 dnf install -y dnf-plugins-core git curl wget
@@ -235,8 +251,9 @@ install_calamares_config
 chown -R "$TARGET_USER:$TARGET_USER" "$TARGET_HOME/.config" "$TARGET_HOME/.local" 2>/dev/null || true
 
 systemctl disable gdm.service 2>/dev/null || true
-systemctl enable sddm.service || true
-systemctl set-default graphical.target || true
+systemctl disable sddm.service 2>/dev/null || true
+systemctl enable getty@tty1.service || true
+systemctl set-default multi-user.target || true
 
 echo
 echo "Kaizen image postinstall complete."
