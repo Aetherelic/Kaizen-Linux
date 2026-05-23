@@ -12,3 +12,4 @@ stow
 bash-completion
 dnf-plugins-core
 flatpak
+dracut
