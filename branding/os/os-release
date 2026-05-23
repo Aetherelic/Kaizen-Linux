@@ -1,0 +1,12 @@
+NAME="Kaizen Linux"
+PRETTY_NAME="Kaizen Linux"
+ID=kaizen
+ID_LIKE="fedora"
+VERSION_ID="44"
+VARIANT="Hyprland"
+VARIANT_ID=hyprland
+HOME_URL="https://github.com/Aetherelic/Kaizen-Linux"
+DOCUMENTATION_URL="https://github.com/Aetherelic/Kaizen-Linux"
+BUG_REPORT_URL="https://github.com/Aetherelic/Kaizen-Linux/issues"
+LOGO=kaizen-linux
+ANSI_COLOR="0;36"

@@ -79,6 +79,24 @@ install_wallpapers() {
   fi
 }
 
+
+install_kaizen_os_branding() {
+  if [ -f "$ROOT_DIR/branding/os/os-release" ]; then
+    cp "$ROOT_DIR/branding/os/os-release" /usr/lib/os-release
+    ln -sf ../usr/lib/os-release /etc/os-release
+  fi
+
+  printf "Kaizen Linux\n" > /etc/fedora-release
+  printf "Kaizen Linux\n" > /etc/redhat-release
+  printf "Kaizen Linux\n" > /etc/system-release
+  printf "Kaizen Linux\n" > /etc/issue
+  printf "Kaizen Linux\n" > /etc/issue.net
+  printf "Kaizen Linux\n\n" > /etc/motd
+
+  hostnamectl set-hostname kaizen 2>/dev/null || true
+}
+
+
 dnf install -y dnf-plugins-core git curl wget
 
 dnf install -y \
@@ -101,6 +119,7 @@ copy_config_dir waybar
 copy_config_dir fastfetch
 copy_config_dir starship
 install_wallpapers
+install_kaizen_os_branding
 
 systemctl disable gdm.service 2>/dev/null || true
 systemctl enable sddm.service || true

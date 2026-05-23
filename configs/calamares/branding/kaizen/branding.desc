@@ -3,9 +3,9 @@ componentName: kaizen
 strings:
   productName: Kaizen Linux
   shortProductName: Kaizen
-  version: Fedora 44 Prototype
+  version: Kaizen Linux Prototype
   shortVersion: F44
-  versionedName: Kaizen Linux Fedora 44
+  versionedName: Kaizen Linux
   shortVersionedName: Kaizen F44
   bootloaderEntryName: Kaizen Linux
   productUrl: https://github.com/Aetherelic/Kaizen-Linux
