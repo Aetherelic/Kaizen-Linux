@@ -134,13 +134,45 @@ UPDATE
 
 
 
+
 install_kaizen_welcome() {
   mkdir -p /usr/share/kaizen/welcome /usr/share/applications
   cp -r "$ROOT_DIR/docs/welcome/." /usr/share/kaizen/welcome/
 
   cat > /usr/local/bin/kaizen-welcome <<'WELCOME'
 #!/usr/bin/env bash
-xdg-open /usr/share/kaizen/welcome/index.html >/dev/null 2>&1 &
+set -u
+
+PAGE="/usr/share/kaizen/welcome/index.html"
+LOG="/tmp/kaizen-welcome.log"
+
+{
+  echo "Kaizen Welcome launched: $(date)"
+  echo "USER=$USER"
+  echo "DISPLAY=${DISPLAY:-}"
+  echo "WAYLAND_DISPLAY=${WAYLAND_DISPLAY:-}"
+  echo "XDG_CURRENT_DESKTOP=${XDG_CURRENT_DESKTOP:-}"
+  echo "PAGE=$PAGE"
+} > "$LOG"
+
+if command -v firefox >/dev/null 2>&1; then
+  exec firefox "file://$PAGE" >> "$LOG" 2>&1
+fi
+
+if command -v xdg-open >/dev/null 2>&1; then
+  exec xdg-open "$PAGE" >> "$LOG" 2>&1
+fi
+
+if command -v gio >/dev/null 2>&1; then
+  exec gio open "$PAGE" >> "$LOG" 2>&1
+fi
+
+if command -v kitty >/dev/null 2>&1; then
+  exec kitty -e bash -lc "echo 'Could not open Kaizen Welcome.'; echo; cat '$LOG'; echo; read -rp 'Press Enter to close...'"
+fi
+
+cat "$LOG"
+exit 1
 WELCOME
 
   chmod 755 /usr/local/bin/kaizen-welcome
@@ -150,10 +182,11 @@ WELCOME
 Type=Application
 Name=Welcome to Kaizen Linux
 Comment=Learn the basics of Kaizen Linux
-Exec=kaizen-welcome
+Exec=/usr/local/bin/kaizen-welcome
 Icon=help-about
 Terminal=false
 Categories=System;Utility;
+StartupNotify=true
 DESKTOP
 }
 

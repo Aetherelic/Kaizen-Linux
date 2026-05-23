@@ -28,3 +28,4 @@ cliphist
 openssh-server
 spice-vdagent
 qemu-guest-agent
+xdg-utils
