@@ -63,30 +63,61 @@ copy_config_dir() {
 }
 
 
+
 install_installer_shortcut() {
   local target_home="$1"
   local target_user
   target_user="$(basename "$target_home")"
 
-  mkdir -p /usr/local/bin /etc/sudoers.d "$target_home/Desktop" "$target_home/.local/share/applications"
+  mkdir -p /usr/local/bin /etc/sudoers.d /usr/share/applications "$target_home/Desktop" "$target_home/.local/share/applications"
 
   cat > /usr/local/bin/kaizen-calamares-root <<'ROOTWRAP'
 #!/usr/bin/env bash
-set -euo pipefail
+set -u
 
 export QT_QPA_PLATFORM="${QT_QPA_PLATFORM:-wayland;xcb}"
+export XDG_SESSION_TYPE="${XDG_SESSION_TYPE:-wayland}"
+export HOME=/root
 
-exec /usr/bin/calamares
+exec /usr/bin/calamares -d
 ROOTWRAP
 
   cat > /usr/local/bin/install-kaizen-linux <<'USERWRAP'
 #!/usr/bin/env bash
-set -euo pipefail
+set -u
+
+LOG="/tmp/kaizen-installer.log"
+: > "$LOG"
+
+{
+  date
+  echo "User: $(id)"
+  echo "WAYLAND_DISPLAY=${WAYLAND_DISPLAY:-}"
+  echo "DISPLAY=${DISPLAY:-}"
+  echo "XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR:-}"
+  echo "QT_QPA_PLATFORM=${QT_QPA_PLATFORM:-}"
+} >> "$LOG" 2>&1
 
 export QT_QPA_PLATFORM="${QT_QPA_PLATFORM:-wayland;xcb}"
 export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
 
-exec sudo -E /usr/local/bin/kaizen-calamares-root
+if sudo -n -E /usr/local/bin/kaizen-calamares-root >> "$LOG" 2>&1; then
+  exit 0
+fi
+
+if command -v notify-send >/dev/null 2>&1; then
+  notify-send "Kaizen installer failed to launch" "Opening debug log..."
+fi
+
+if command -v kitty >/dev/null 2>&1; then
+  exec kitty -e bash -lc "cat '$LOG'; echo; read -rp 'Press Enter to close...'"
+elif command -v xterm >/dev/null 2>&1; then
+  exec xterm -e bash -lc "cat '$LOG'; echo; read -rp 'Press Enter to close...'"
+else
+  cat "$LOG"
+fi
+
+exit 1
 USERWRAP
 
   chmod 755 /usr/local/bin/kaizen-calamares-root /usr/local/bin/install-kaizen-linux
@@ -97,7 +128,15 @@ SUDOERS
 
   chmod 440 /etc/sudoers.d/kaizen-installer
 
-  cat > "$target_home/Desktop/install-kaizen-linux.desktop" <<'DESKTOP'
+  for f in /usr/share/applications/*calamares*.desktop /usr/share/applications/*installer*.desktop; do
+    if [ -f "$f" ] && grep -qiE 'calamares|Install System' "$f"; then
+      sed -i '/^NoDisplay=/d;/^Hidden=/d' "$f"
+      sed -i '/^\[Desktop Entry\]/a Hidden=true
+NoDisplay=true' "$f"
+    fi
+  done
+
+  cat > /usr/share/applications/install-kaizen-linux.desktop <<'DESKTOP'
 [Desktop Entry]
 Type=Application
 Name=Install Kaizen Linux
@@ -106,11 +145,15 @@ Exec=/usr/local/bin/install-kaizen-linux
 Icon=system-software-install
 Terminal=false
 Categories=System;
+StartupNotify=true
 DESKTOP
 
-  cp "$target_home/Desktop/install-kaizen-linux.desktop" "$target_home/.local/share/applications/install-kaizen-linux.desktop"
-  chmod +x "$target_home/Desktop/install-kaizen-linux.desktop" "$target_home/.local/share/applications/install-kaizen-linux.desktop"
+  cp /usr/share/applications/install-kaizen-linux.desktop "$target_home/Desktop/install-kaizen-linux.desktop"
+  cp /usr/share/applications/install-kaizen-linux.desktop "$target_home/.local/share/applications/install-kaizen-linux.desktop"
+
+  chmod +x /usr/share/applications/install-kaizen-linux.desktop "$target_home/Desktop/install-kaizen-linux.desktop" "$target_home/.local/share/applications/install-kaizen-linux.desktop"
 }
+
 
 install_wallpapers() {
   local target_home="$1"
