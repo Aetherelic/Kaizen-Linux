@@ -170,6 +170,10 @@ cat > "$HYPR_DIR/colors.conf" <<THEME
 \$kaizen_muted = rgb(${MUTED#"#"})
 \$kaizen_accent = rgb(${ACCENT#"#"})
 \$kaizen_accent2 = rgb(${ACCENT_2#"#"})
+
+# Compatibility aliases for older rice config
+\$primary = rgb(${ACCENT#"#"})
+\$surface_container = rgb(${SURFACE#"#"})
 THEME
 
 # Make Waybar load adaptive colours if possible.
