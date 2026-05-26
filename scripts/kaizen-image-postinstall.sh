@@ -158,6 +158,26 @@ SDDM
   systemctl set-default graphical.target || true
 }
 
+
+# Install Kaizen user defaults into /etc/skel so Calamares-created users inherit them.
+if [ -d "$ROOT_DIR/configs" ]; then
+  mkdir -p /etc/skel/.config
+  for name in hypr waybar rofi kitty fastfetch swaync starship; do
+    if [ -d "$ROOT_DIR/configs/$name" ]; then
+      rm -rf "/etc/skel/.config/$name"
+      mkdir -p "/etc/skel/.config/$name"
+      cp -a "$ROOT_DIR/configs/$name/." "/etc/skel/.config/$name/"
+    fi
+  done
+  chown -R root:root /etc/skel/.config
+fi
+
+if [ -d "$ROOT_DIR/branding/wallpapers" ]; then
+  mkdir -p /etc/skel/.local/share/backgrounds/kaizen
+  cp -a "$ROOT_DIR/branding/wallpapers/." /etc/skel/.local/share/backgrounds/kaizen/
+  chown -R root:root /etc/skel/.local
+fi
+
 bash "$ROOT_DIR/scripts/install-kaizen-desktop.sh" "$TARGET_USER"
 
 install_package_list "$ROOT_DIR/packages/installer.txt"
