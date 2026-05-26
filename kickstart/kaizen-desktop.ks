@@ -49,7 +49,7 @@ printf "Kaizen Linux Desktop ISO Prototype\n\n" > /etc/motd
 printf "This system was built from the Kaizen desktop Kickstart prototype.\n" >> /etc/motd
 
 rm -rf /opt/kaizen-linux
-git clone https://github.com/Aetherelic/Kaizen-Linux.git /opt/kaizen-linux
+git clone --branch full-rice-integration --single-branch https://github.com/Aetherelic/Kaizen-Linux.git /opt/kaizen-linux
 
 cd /opt/kaizen-linux
 bash scripts/kaizen-image-postinstall.sh kaizen
