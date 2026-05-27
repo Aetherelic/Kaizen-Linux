@@ -1,14 +1,13 @@
 {
   "layer": "top",
   "position": "top",
-  "height": 43,
-  "spacing": 8,
+  "height": 30,
+  "spacing": 4,
   "margin-top": 5,
-  "margin-left": 10,
-  "margin-right": 10,
+  "margin-left": 8,
+  "margin-right": 8,
 
   "modules-left": [
-    "custom/logo",
     "hyprland/workspaces"
   ],
 
@@ -19,17 +18,8 @@
   "modules-right": [
     "pulseaudio",
     "network",
-    "memory",
-    "cpu",
-    "custom/notification",
-    "tray"
+    "custom/notification"
   ],
-
-  "custom/logo": {
-    "format": "KAIZEN",
-    "tooltip": false,
-    "on-click": "kaizen-welcome"
-  },
 
   "hyprland/workspaces": {
     "format": "{id}",
@@ -60,33 +50,21 @@
   },
 
   "network": {
-    "format-wifi": "NET {essid}",
-    "format-ethernet": "NET wired",
-    "format-disconnected": "NET off",
+    "format-wifi": "{essid}",
+    "format-ethernet": "wired",
+    "format-disconnected": "offline",
     "tooltip-format": "{ifname}",
     "on-click": "kitty -e nmtui"
   },
 
-  "memory": {
-    "format": "RAM {percentage}%"
-  },
-
-  "cpu": {
-    "format": "CPU {usage}%"
-  },
-
   "custom/notification": {
     "tooltip": false,
-    "format": "NOTIF",
+    "format": "●",
     "return-type": "json",
     "exec-if": "command -v swaync-client",
     "exec": "swaync-client -swb",
     "on-click": "swaync-client -t -sw",
     "on-click-right": "swaync-client -d -sw",
     "escape": true
-  },
-
-  "tray": {
-    "spacing": 8
   }
 }
