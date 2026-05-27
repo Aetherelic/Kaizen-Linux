@@ -6,11 +6,11 @@
   "control-center-layer": "top",
   "layer-shell": true,
   "cssPriority": "application",
-  "control-center-width": 390,
-  "control-center-height": 680,
-  "notification-icon-size": 54,
-  "notification-body-image-height": 140,
-  "notification-body-image-width": 190,
+  "control-center-width": 360,
+  "control-center-height": 560,
+  "notification-icon-size": 48,
+  "notification-body-image-height": 130,
+  "notification-body-image-width": 180,
   "timeout": 7,
   "timeout-low": 4,
   "timeout-critical": 0,
@@ -28,7 +28,7 @@
   ],
   "widget-config": {
     "title": {
-      "text": "Kaizen Notifications",
+      "text": "Notifications",
       "clear-all-button": true,
       "button-text": "Clear"
     },
