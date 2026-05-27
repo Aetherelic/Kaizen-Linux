@@ -109,20 +109,31 @@ REPO_DIR="${KAIZEN_REPO_DIR:-$HOME/Kaizen-Linux}"
 BRANCH="${KAIZEN_BRANCH:-main}"
 
 if [ ! -d "$REPO_DIR/.git" ]; then
-  echo "Kaizen repo not found at: $REPO_DIR"
-  echo
-  echo "Clone it first with:"
-  echo "git clone https://github.com/Aetherelic/Kaizen-Linux.git $REPO_DIR"
-  exit 1
+  echo "Kaizen repo not found. Cloning into: $REPO_DIR"
+  mkdir -p "$(dirname "$REPO_DIR")"
+  git clone https://github.com/Aetherelic/Kaizen-Linux.git "$REPO_DIR"
 fi
 
 cd "$REPO_DIR"
 
 git fetch origin
-git switch "$BRANCH"
+
+if git show-ref --verify --quiet "refs/remotes/origin/$BRANCH"; then
+  git checkout -B "$BRANCH" "origin/$BRANCH"
+else
+  echo "Branch not found on origin: $BRANCH"
+  echo "Available remote branches:"
+  git branch -r
+  exit 1
+fi
+
 git reset --hard "origin/$BRANCH"
 
 sudo bash scripts/install-kaizen-desktop.sh "$USER"
+
+if [ -x "$HOME/.config/hypr/scripts/kaizen-generate-theme.sh" ]; then
+  bash "$HOME/.config/hypr/scripts/kaizen-generate-theme.sh" "$HOME/.config/hypr/current_wallpaper" || true
+fi
 
 echo
 echo "Kaizen update complete."
