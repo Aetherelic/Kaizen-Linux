@@ -3,42 +3,47 @@ set -euo pipefail
 
 MODE="${1:-}"
 
+start_waybar() {
+  pkill waybar 2>/dev/null || true
+  sleep 0.2
+  waybar > "$HOME/.cache/kaizen-waybar.log" 2>&1 & disown
+}
+
+start_quickshell() {
+  pkill quickshell 2>/dev/null || true
+  sleep 0.2
+  QML_XHR_ALLOW_FILE_READ=1 quickshell --path "$HOME/.config/quickshell/shell.qml" > "$HOME/.cache/kaizen-quickshell.log" 2>&1 & disown
+}
+
 case "$MODE" in
   enable)
-    mkdir -p "$HOME/.config/systemd/user"
-
-    cat > "$HOME/.config/systemd/user/kaizen-quickshell.service" <<SERVICE
-[Unit]
-Description=Kaizen Quickshell Adaptive Mode
-After=graphical-session.target
-
-[Service]
-ExecStart=/usr/bin/env QML_XHR_ALLOW_FILE_READ=1 quickshell --path %h/.config/quickshell/shell.qml
-Restart=on-failure
-RestartSec=2
-
-[Install]
-WantedBy=default.target
-SERVICE
-
-    systemctl --user daemon-reload
-    systemctl --user enable --now kaizen-quickshell.service
-
-    systemctl --user stop kaizen-waybar.service 2>/dev/null || true
     pkill waybar 2>/dev/null || true
-
+    start_quickshell
     notify-send "Kaizen Adaptive Mode" "Quickshell enabled" 2>/dev/null || true
     ;;
 
   disable)
-    systemctl --user disable --now kaizen-quickshell.service 2>/dev/null || true
     pkill quickshell 2>/dev/null || true
+    start_waybar
+    notify-send "Kaizen Adaptive Mode" "Waybar restored" 2>/dev/null || true
+    ;;
 
-    notify-send "Kaizen Adaptive Mode" "Quickshell disabled" 2>/dev/null || true
+  restart)
+    pkill quickshell 2>/dev/null || true
+    start_quickshell
+    notify-send "Kaizen Adaptive Mode" "Quickshell restarted" 2>/dev/null || true
+    ;;
+
+  status)
+    if pgrep -x quickshell >/dev/null 2>&1; then
+      echo "Adaptive Mode: enabled"
+    else
+      echo "Adaptive Mode: disabled"
+    fi
     ;;
 
   *)
-    echo "Usage: kaizen-quickshell-mode enable|disable"
+    echo "Usage: kaizen-quickshell-mode enable|disable|restart|status"
     exit 1
     ;;
 esac

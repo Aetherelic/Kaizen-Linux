@@ -15,6 +15,8 @@ choice="$(
 ◌  Network Settings
 ✦  Install Gaming Profile
 ✧  Install Productivity Profile
+◇  Enable Adaptive Mode
+◆  Disable Adaptive Mode
 ?  Help / Keybinds
 ⓘ  About Kaizen
 MENU
@@ -59,6 +61,14 @@ case "$choice" in
 
   "✧  Install Productivity Profile")
     kitty -e bash -lc 'kaizen-install-profile productivity; echo; read -rp "Press Enter to close..."'
+    ;;
+
+  "◇  Enable Adaptive Mode")
+    kaizen-quickshell-mode enable
+    ;;
+
+  "◆  Disable Adaptive Mode")
+    kaizen-quickshell-mode disable
     ;;
 
   "?  Help / Keybinds")
