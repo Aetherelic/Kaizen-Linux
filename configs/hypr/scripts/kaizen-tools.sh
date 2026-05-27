@@ -5,67 +5,67 @@ ROFI_THEME="$HOME/.config/rofi/kaizen-adaptive.rasi"
 
 choice="$(
   cat <<'MENU' | rofi -dmenu -i -p "Kaizen Tools" -theme "$ROFI_THEME"
-󰣇  Welcome to Kaizen
-  Update Kaizen
-󰸉  Wallpaper Picker
-󰧨  System Monitor
-󰋊  Disk Utility
-󰕾  Audio Settings
-󰂯  Bluetooth Settings
-󰤨  Network Settings
-󰊴  Install Gaming Profile
-󰈙  Install Productivity Profile
-  Help / Keybinds
-󰅐  About Kaizen
+◆  Welcome to Kaizen
+↻  Update Kaizen
+▣  Wallpaper Picker
+▤  System Monitor
+◇  Disk Utility
+◉  Audio Settings
+◎  Bluetooth Settings
+◌  Network Settings
+✦  Install Gaming Profile
+✧  Install Productivity Profile
+?  Help / Keybinds
+ⓘ  About Kaizen
 MENU
 )"
 
 case "$choice" in
-  "󰣇  Welcome to Kaizen")
+  "◆  Welcome to Kaizen")
     kaizen-welcome
     ;;
 
-  "  Update Kaizen")
+  "↻  Update Kaizen")
     kitty -e bash -lc 'KAIZEN_BRANCH="${KAIZEN_BRANCH:-full-rice-integration}" kaizen-update; echo; read -rp "Press Enter to close..."'
     ;;
 
-  "󰸉  Wallpaper Picker")
+  "▣  Wallpaper Picker")
     bash "$HOME/.config/hypr/scripts/kaizen-wallpaper-picker.sh"
     ;;
 
-  "󰧨  System Monitor")
+  "▤  System Monitor")
     gnome-system-monitor >/dev/null 2>&1 &
     ;;
 
-  "󰋊  Disk Utility")
+  "◇  Disk Utility")
     gnome-disks >/dev/null 2>&1 &
     ;;
 
-  "󰕾  Audio Settings")
+  "◉  Audio Settings")
     pavucontrol >/dev/null 2>&1 &
     ;;
 
-  "󰂯  Bluetooth Settings")
+  "◎  Bluetooth Settings")
     blueman-manager >/dev/null 2>&1 &
     ;;
 
-  "󰤨  Network Settings")
+  "◌  Network Settings")
     kitty -e nmtui
     ;;
 
-  "󰊴  Install Gaming Profile")
+  "✦  Install Gaming Profile")
     kitty -e bash -lc 'kaizen-install-profile gaming; echo; read -rp "Press Enter to close..."'
     ;;
 
-  "󰈙  Install Productivity Profile")
+  "✧  Install Productivity Profile")
     kitty -e bash -lc 'kaizen-install-profile productivity; echo; read -rp "Press Enter to close..."'
     ;;
 
-  "  Help / Keybinds")
+  "?  Help / Keybinds")
     kitty -e bash -lc 'bash "$HOME/.config/hypr/scripts/kaizen-keybinds.sh"; echo; read -rp "Press Enter to close..."'
     ;;
 
-  "󰅐  About Kaizen")
+  "ⓘ  About Kaizen")
     kitty -e bash -lc 'cat /etc/os-release; echo; echo "Repo: https://github.com/Aetherelic/Kaizen-Linux"; echo; read -rp "Press Enter to close..."'
     ;;
 esac
