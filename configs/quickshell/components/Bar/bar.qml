@@ -294,9 +294,9 @@ Variants {
 
                     Text {
                         anchors.centerIn: parent
-                        text: "NET"
+                        text: "◌"
                         font.family: "JetBrains Mono"
-                        font.pixelSize: 8
+                        font.pixelSize: 17
                         font.bold: true
                         color: root.wifiVisible ? zyuTheme.accent : Qt.rgba(zyuTheme.bar_fg.r, zyuTheme.bar_fg.g, zyuTheme.bar_fg.b, wifiMa.containsMouse ? 0.8 : 0.45)
                     }
@@ -328,9 +328,9 @@ Variants {
 
                     Text {
                         anchors.centerIn: parent
-                        text: "KZ"
+                        text: "◆"
                         font.family: "JetBrains Mono"
-                        font.pixelSize: 9
+                        font.pixelSize: 15
                         font.bold: true
                         color: Qt.rgba(zyuTheme.bar_fg.r, zyuTheme.bar_fg.g, zyuTheme.bar_fg.b, dashMa.containsMouse ? 0.8 : 0.45)
                     }
